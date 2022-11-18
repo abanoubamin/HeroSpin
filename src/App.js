@@ -1,17 +1,18 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import {SafeAreaView, StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 
 import MainStackNavigator from './navigation/MainStack';
+import {colors, commonStyles} from './theme';
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={commonStyles.container}>
       <StatusBar
         animated
         translucent
-        backgroundColor="transparent"
+        backgroundColor={colors.transparent}
         barStyle="dark-content"
       />
       <NavigationContainer>
@@ -20,9 +21,5 @@ const App = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {flex: 1},
-});
 
 export default App;

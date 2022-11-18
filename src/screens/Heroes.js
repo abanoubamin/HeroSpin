@@ -1,11 +1,22 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {FlatList} from 'react-native';
+
+import {featuredCharacters} from '../constants/Heroes';
+import {HeroCard} from '../components';
 
 const Heroes = () => {
+  const renderCards = ({item}) => {
+    return <HeroCard heroDetails={item} />;
+  };
+
   return (
-    <View>
-      <Text>Heroes</Text>
-    </View>
+    <FlatList
+      data={featuredCharacters}
+      keyExtractor={(item, index) => `${item.name} - ${index}`}
+      numColumns={2}
+      renderItem={renderCards}
+      showsVerticalScrollIndicator={false}
+    />
   );
 };
 
