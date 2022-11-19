@@ -1,12 +1,22 @@
 import React from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {useNavigation} from '@react-navigation/native';
 
 import {colors, commonStyles} from '../../theme';
 
 export const HeroCard = ({heroDetails: {imageURL, name}}) => {
+  const navigation = useNavigation();
+
+  const selectCard = () => {
+    navigation.navigate('MoviesWheel', {heroName: name});
+  };
+
   return (
-    <TouchableOpacity activeOpacity={0.7} style={styles.cardContainer}>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      style={styles.cardContainer}
+      onPress={selectCard}>
       <FastImage
         style={styles.cardImg}
         source={{uri: imageURL, priority: FastImage.priority.high}}
