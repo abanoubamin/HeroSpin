@@ -1,20 +1,27 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {useRoute} from '@react-navigation/native';
-import {ScrollView, ActivityIndicator, Button, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {
+  ScrollView,
+  ActivityIndicator,
+  View,
+  Button,
+  StyleSheet,
+} from 'react-native';
 import WheelOfFortune from 'react-native-wheel-of-fortune';
 
 import {getMovies} from '../services';
-import {colors} from '../theme';
+import {colors, commonStyles} from '../theme';
 
 const MoviesWheel = () => {
   const {
     params: {heroName},
   } = useRoute();
+  const navigation = useNavigation();
   const wheelRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState([]);
   const [disableCTA, setDisableCTA] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState(null);
   const wheelOptions = {
     rewards: movies?.map(movie => movie.Title).slice(0, 6),
     knobSize: 50,
@@ -22,10 +29,15 @@ const MoviesWheel = () => {
     borderColor: colors.black,
     innerRadius: 50,
     duration: 4000,
-    backgroundColor: 'transparent',
+    backgroundColor: colors.transparent,
     textAngle: 'horizontal',
     knobSource: require('../assets/images/knob.png'),
-    getWinner: value => setSelectedMovie(value),
+    getWinner: (_, index) => {
+      navigation.replace('MovieDetails', {
+        heroName,
+        movieID: movies[index].imdbID,
+      });
+    },
     onRef: ref => (wheelRef.current = ref),
   };
 
@@ -51,11 +63,13 @@ const MoviesWheel = () => {
       ) : (
         <>
           <WheelOfFortune options={wheelOptions} />
-          <Button
-            disabled={disableCTA}
-            title="Run the wheel"
-            onPress={onCTAPress}
-          />
+          <View style={commonStyles.cta}>
+            <Button
+              disabled={disableCTA}
+              title="Run the wheel"
+              onPress={onCTAPress}
+            />
+          </View>
         </>
       )}
     </ScrollView>

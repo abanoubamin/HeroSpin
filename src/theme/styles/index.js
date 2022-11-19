@@ -4,6 +4,7 @@ import {colors} from '../colors';
 
 export const commonStyles = StyleSheet.create({
   container: {flex: 1},
+  cta: {marginVertical: 10},
   elevation_5: {
     shadowColor: colors.black,
     shadowOffset: {
